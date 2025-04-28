@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "statsbasic"
+version = "0.1.0"
+description = ""
+authors = ["Arthur Huan <Arthur-Huan@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.12 < 3.14"
+PySide6 = "*"
+pandas = "*"
+seaborn = "*"
+
+
+[[tool.poetry.source]]
+name = "mirrors"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+priority = "primary"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
