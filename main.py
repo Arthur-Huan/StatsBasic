@@ -1,8 +1,7 @@
 import sys
+from PySide6.QtWidgets import QMainWindow, QApplication, QVBoxLayout, QHBoxLayout, QWidget
 
-from PySide6.QtWidgets import QMainWindow, QTabWidget, QApplication, QGridLayout, QHBoxLayout
-
-from data_manager import DataManager
+from database import DataManager
 from data_widget import DataWidget
 from calculator_widget import CalculatorWidget
 from visualization_widget import VisualizationWidget
@@ -21,7 +20,7 @@ class MainWindow(QMainWindow):
         # Right: Graphical representation of the data
         self.right_widget = VisualizationWidget(self.data_manager, self)
 
-        self.central_widget = QTabWidget(self)
+        self.central_widget = QWidget(self)
         grid_central = QHBoxLayout(self.central_widget)
         grid_central.addWidget(self.left_widget)
         grid_central.addWidget(self.middle_widget)
@@ -33,7 +32,12 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-    app = QApplication([])
+    app = QApplication(sys.argv)
+    if "Breeze" in QApplication.style().objectName():
+        app.setStyle("Breeze")
+    else:
+        app.setStyle("Fusion")
+        print("Breeze is not available, using Fusion.")
     window = MainWindow()
     window.show()
     sys.exit(app.exec())

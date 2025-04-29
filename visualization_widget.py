@@ -22,14 +22,12 @@ class VisualizationWidget(QWidget):
 
         # Button to plot the graph
         self.plot_button = QPushButton("Plot Scatter Plot", self)
-
-        # Connect the button to the plot method
         self.plot_button.clicked.connect(self.plot_scatter)
+        self.layout.addWidget(self.plot_button)
 
         # Plot figure and canvas
         self.figure = Figure()
         self.canvas = FigureCanvas(self.figure)
-
         self.layout.addWidget(self.canvas)
 
     def update_table(self):
