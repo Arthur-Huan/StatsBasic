@@ -13,20 +13,24 @@ class CalculatorWidget(QTabWidget):
 
         self.data_manager = data_manager
 
-        layout = QVBoxLayout(self)
+        self.layout = QVBoxLayout(self)
 
+        # Create the tabs
         self.tabs_widget = QTabWidget()
         self.normality_tab = NormalityTab(self.data_manager, self)
-        self.tabs_widget.addTab(self.normality_tab, "Normality")
         self.t_test_tab = TTestTab(self.data_manager, self)
-        self.tabs_widget.addTab(self.t_test_tab, "T-test")
         self.chi_squared_tab = ChiSquaredTab(self.data_manager, self)
-        self.tabs_widget.addTab(self.chi_squared_tab, "Chi-squared test")
         self.correlation_coefficient_tab = CorrelationCoefficientTab(self.data_manager, self)
-        self.tabs_widget.addTab(self.correlation_coefficient_tab, "Correlation coefficient")
         self.anova_tab = ANOVATab(self.data_manager, self)
+
+        # Add the tabs to the tabs widget
+        self.tabs_widget.addTab(self.normality_tab, "Normality")
+        self.tabs_widget.addTab(self.t_test_tab, "T-test")
+        self.tabs_widget.addTab(self.chi_squared_tab, "Chi-squared test")
+        self.tabs_widget.addTab(self.correlation_coefficient_tab, "Correlation coefficient")
         self.tabs_widget.addTab(self.anova_tab, "ANOVA")
-        layout.addWidget(self.tabs_widget)
+
+        self.layout.addWidget(self.tabs_widget)
 
         self.dropdown = QComboBox()
         self.dropdown.addItems([
@@ -37,7 +41,7 @@ class CalculatorWidget(QTabWidget):
             "ANOVA"
         ])
         self.dropdown.setCurrentIndex(0)
-        layout.addWidget(self.dropdown)
+        self.layout.addWidget(self.dropdown)
 
         # Sync the dropdown selector and tab selector
         self.tabs_widget.currentChanged.connect(self.dropdown.setCurrentIndex)
