@@ -92,6 +92,8 @@ class GraphWidget(QWidget):
             # Use the first two columns for the scatter plot
             x_col = data.columns[0]
             ax = self.figure.add_subplot(111)
+            if len(data.columns) > 2:
+                ax.set_ylabel("Values")
             for y_col in data.columns[1:]:
                 sns.scatterplot(data=data, x=x_col, y=y_col, ax=ax, label=y_col)
 
