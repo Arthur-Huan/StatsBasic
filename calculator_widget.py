@@ -62,8 +62,11 @@ class CalculatorWidget(QWidget):
         self.layout.addWidget(self.update_button)
 
     def update_results(self):
+        """Call the current widget to carry out the actual updating."""
         current_tab = self.tabs_widget.currentWidget()
+        # Make sure tab is of the correct type and will have the required methods
         if isinstance(current_tab, AbstractCalculatorTab):
+            # Call `update_results()` from the tab to actually update the results
             status = current_tab.update_results()
             self.feedback_label.setText(status)
         else:

@@ -21,6 +21,8 @@ class NormalityTab(AbstractCalculatorTab):
         self.layout.addWidget(self.results_table)
 
     def update_results(self):
+        """Update the results and display them in the results table.
+        :return: empty string if successful, otherwise a feedback message"""
         data = self.data_manager.get_data()
         if data is None or data.empty:
             return "No data loaded."

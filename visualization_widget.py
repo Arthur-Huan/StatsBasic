@@ -30,6 +30,7 @@ class TableWidget(QTableWidget):
     def update_table(self):
         """
         Update the table with the latest data from the data manager.
+        No returns or feedback is provided
         """
         data = self.data_manager.get_data()
         if data is None or data.empty:
@@ -74,8 +75,9 @@ class GraphWidget(QWidget):
         self.layout.addWidget(self.plot_button)
 
     def plot_scatter(self):
-        """
-        Plot a scatter plot
+        """Plot a scatter plot
+        Data is loaded from `self.data_manager` to plot the plot.
+        Feedback label for the plotting will be updated to provide user feedback.
         """
         data = self.data_manager.get_data()
         if data is None:

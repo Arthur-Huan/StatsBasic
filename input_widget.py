@@ -58,8 +58,7 @@ class FilePathInput(QLineEdit):
         self.data_manager = data_manager
 
     def load_data(self):
-        """
-        Loads data from the file path input field into `self.data_manager`
+        """Loads data from the file path input field into `self.data_manager`
         :return: Status message in string
         """
         status = self.validate_path()
@@ -72,7 +71,8 @@ class FilePathInput(QLineEdit):
 
     # TODO: Validate that the file can be read correctly, not just if path is okay
     def validate_path(self):
-        """
+        """ Check if the file path is valid
+         But NOT if the file itself is formatted correctly
         :return: 1 if validated, string status message otherwise
         """
         path = self.text()
@@ -103,8 +103,7 @@ class TextInput(QTextEdit):
         self.data_manager = data_manager
 
     def load_data(self):
-        """
-        Loads data from the text input field into `self.data_manager`
+        """Loads data from the text input field into `self.data_manager`
         :return: Status message in string
         """
         status = self.validate_text()
