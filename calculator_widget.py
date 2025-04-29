@@ -37,5 +37,8 @@ class CalculatorWidget(QTabWidget):
             "ANOVA"
         ])
         self.dropdown.setCurrentIndex(0)
-        self.dropdown.currentIndexChanged.connect(self.tabs_widget.setCurrentIndex)
         layout.addWidget(self.dropdown)
+
+        # Sync the dropdown selector and tab selector
+        self.tabs_widget.currentChanged.connect(self.dropdown.setCurrentIndex)
+        self.dropdown.currentIndexChanged.connect(self.tabs_widget.setCurrentIndex)
