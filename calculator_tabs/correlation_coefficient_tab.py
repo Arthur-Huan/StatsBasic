@@ -1,12 +1,12 @@
 from scipy.stats import pearsonr
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QTableWidget, QTableWidgetItem
 
+from calculator_tabs.abstract_calculator_tab import AbstractCalculatorTab
 
-class CorrelationCoefficientTab(QWidget):
+
+class CorrelationCoefficientTab(AbstractCalculatorTab):
     def __init__(self, data_manager, parent=None):
-        super().__init__(parent)
-
-        self.data_manager = data_manager
+        super().__init__(data_manager, parent)
 
         self.layout = QVBoxLayout(self)
 
@@ -19,11 +19,6 @@ class CorrelationCoefficientTab(QWidget):
         self.results_table.setColumnCount(3)
         self.results_table.setHorizontalHeaderLabels(["Series", "r", "p-Value"])
         self.layout.addWidget(self.results_table)
-
-        # Button to update the results table
-        self.update_button = QPushButton("Update")
-        self.update_button.clicked.connect(self.update_results)
-        self.layout.addWidget(self.update_button)
 
     def update_results(self):
         data = self.data_manager.get_data()

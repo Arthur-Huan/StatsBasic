@@ -1,12 +1,12 @@
 from scipy.stats import shapiro
 from PySide6.QtWidgets import QTableWidgetItem, QWidget, QVBoxLayout, QTableWidget, QLabel, QPushButton
 
+from calculator_tabs.abstract_calculator_tab import AbstractCalculatorTab
 
-class NormalityTab(QWidget): # TODO: Implement Kolmogorov-Smirnov test and add selector to choose the test
+
+class NormalityTab(AbstractCalculatorTab): # TODO: Implement Kolmogorov-Smirnov test and add selector to choose the test
     def __init__(self, data_manager, parent=None):
-        super().__init__(parent)
-
-        self.data_manager = data_manager
+        super().__init__(data_manager, parent)
 
         self.layout = QVBoxLayout(self)
 
@@ -19,11 +19,6 @@ class NormalityTab(QWidget): # TODO: Implement Kolmogorov-Smirnov test and add s
         self.results_table.setColumnCount(3)
         self.results_table.setHorizontalHeaderLabels(["Series", "W-statistic", "p-Value"])
         self.layout.addWidget(self.results_table)
-
-        # Button to update the results table
-        self.update_button = QPushButton("Update")
-        self.update_button.clicked.connect(self.update_results)
-        self.layout.addWidget(self.update_button)
 
     def update_results(self):
         data = self.data_manager.get_data()

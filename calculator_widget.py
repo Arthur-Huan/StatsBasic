@@ -1,5 +1,6 @@
-from PySide6.QtWidgets import QTabWidget, QVBoxLayout, QComboBox, QWidget
+from PySide6.QtWidgets import QTabWidget, QVBoxLayout, QComboBox, QWidget, QPushButton
 
+from calculator_tabs.abstract_calculator_tab import AbstractCalculatorTab
 from calculator_tabs.normality_tab import NormalityTab
 from calculator_tabs.t_test_tab import TTestTab
 from calculator_tabs.chi_squared_tab import ChiSquaredTab
@@ -46,3 +47,15 @@ class CalculatorWidget(QWidget):
         # Sync the dropdown selector and tab selector
         self.tabs_widget.currentChanged.connect(self.dropdown.setCurrentIndex)
         self.dropdown.currentIndexChanged.connect(self.tabs_widget.setCurrentIndex)
+
+        # Button to update the results
+        self.update_button = QPushButton("Update")
+        self.update_button.clicked.connect(self.update_results)
+        self.layout.addWidget(self.update_button)
+
+    def update_results(self):
+        current_tab = self.tabs_widget.currentWidget()
+        if isinstance(current_tab, AbstractCalculatorTab):
+            current_tab.update_results()
+        else:
+            raise TypeError("Tab needs to be AbstractCalculatorTab class.")

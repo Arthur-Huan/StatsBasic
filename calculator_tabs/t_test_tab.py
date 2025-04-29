@@ -1,10 +1,10 @@
 from PySide6.QtWidgets import QWidget
 
+from calculator_tabs.abstract_calculator_tab import AbstractCalculatorTab
 
-class TTestTab(QWidget):
+
+class TTestTab(AbstractCalculatorTab):
     def __init__(self, data_manager, parent=None):
-        super().__init__(parent)
-
-        self.data_manager = data_manager
+        super().__init__(data_manager, parent)
 
         pass
