@@ -4,7 +4,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QMainWindow, QApplication, QSplitter, QWidget, QSizePolicy
 
 from database import DataManager
-from data_widget import DataWidget
+from input_widget import InputWidget
 from calculator_widget import CalculatorWidget
 from visualization_widget import VisualizationWidget
 
@@ -16,10 +16,9 @@ class MainWindow(QMainWindow):
         self.data_manager = DataManager()
 
         # Left: Input data, including from a file path or directly entering
-        self.left_widget = DataWidget(self.data_manager, self)
+        self.left_widget = InputWidget(self.data_manager, self)
         # Middle: Select the tests
         self.middle_widget = CalculatorWidget(self.data_manager, self)
-        self.middle_widget.setMinimumSize(400, 0)
         # Right: Graphical representation of the data
         self.right_widget = VisualizationWidget(self.data_manager, self)
 
@@ -29,9 +28,6 @@ class MainWindow(QMainWindow):
         self.central_splitter.addWidget(self.middle_widget)
         self.central_splitter.addWidget(self.right_widget)
 
-        self.central_splitter.setStretchFactor(0, 1)
-        self.central_splitter.setStretchFactor(1, 2)
-        self.central_splitter.setStretchFactor(2, 1)
 
         self.setCentralWidget(self.central_splitter)
 

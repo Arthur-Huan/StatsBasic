@@ -3,9 +3,9 @@ from io import StringIO
 import pandas as pd
 from PySide6.QtWidgets import QWidget, QLineEdit, QLabel, QVBoxLayout, QTextEdit, QPushButton, QHBoxLayout
 
-class DataWidget(QWidget):
+class InputWidget(QWidget):
     def __init__(self, data_manager, parent=None):
-        super(DataWidget, self).__init__(parent)
+        super(InputWidget, self).__init__(parent)
 
         self.data_manager = data_manager
 
@@ -20,7 +20,9 @@ class DataWidget(QWidget):
         self.layout.addWidget(self.text_input)
 
         # Label to display feedback
-        self.feedback_label = QLabel()
+        self.feedback_label = QLabel("")
+        # Fix the height of the label
+        self.feedback_label.setFixedHeight(self.feedback_label.fontMetrics().height())
         self.layout.addWidget(self.feedback_label)
 
         # Buttons to load the data
@@ -118,7 +120,7 @@ class TextInput(QTextEdit):
         """
         text = self.toPlainText()
         if text == "":
-            return "Text input is empty"
+            return "Text input is empty."
         return 1
 
     def read_text(self):

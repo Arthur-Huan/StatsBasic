@@ -1,5 +1,5 @@
 from scipy.stats import pearsonr
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QTableWidget, QTableWidgetItem
+from PySide6.QtWidgets import QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem
 
 from calculator_tabs.abstract_calculator_tab import AbstractCalculatorTab
 
@@ -23,8 +23,7 @@ class CorrelationCoefficientTab(AbstractCalculatorTab):
     def update_results(self):
         data = self.data_manager.get_data()
         if data is None or data.empty:
-            self.info_label.setText("No data available.")
-            return
+            return "No data loaded."
 
         # Clear table
         self.results_table.setRowCount(0)
@@ -55,3 +54,5 @@ class CorrelationCoefficientTab(AbstractCalculatorTab):
                 self.results_table.setItem(row_idx, 0, QTableWidgetItem(col))
                 self.results_table.setItem(row_idx, 1, QTableWidgetItem("N/A"))
                 self.results_table.setItem(row_idx, 2, QTableWidgetItem("N/A"))
+
+        return ""

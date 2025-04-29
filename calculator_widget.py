@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QTabWidget, QVBoxLayout, QComboBox, QWidget, QPushButton
+from PySide6.QtWidgets import QTabWidget, QVBoxLayout, QComboBox, QWidget, QPushButton, QLabel
 
 from calculator_tabs.abstract_calculator_tab import AbstractCalculatorTab
 from calculator_tabs.normality_tab import NormalityTab
@@ -42,14 +42,19 @@ class CalculatorWidget(QWidget):
         self.tabs_widget.addTab(self.chi_squared_tab, "Chi-squared test")
         self.tabs_widget.addTab(self.correlation_coefficient_tab, "Correlation coefficient")
         self.tabs_widget.addTab(self.anova_tab, "ANOVA")
+        # Hide the tabs bar
+        self.tabs_widget.tabBar().setVisible(False)
         self.layout.addWidget(self.tabs_widget)
 
         # Sync the dropdown selector and tab selector
         self.tabs_widget.currentChanged.connect(self.dropdown.setCurrentIndex)
         self.dropdown.currentIndexChanged.connect(self.tabs_widget.setCurrentIndex)
-        
-        # Hide the tabs bar
-        self.tabs_widget.tabBar().setVisible(False)
+
+        # Create feedback label
+        self.feedback_label = QLabel("")
+        self.layout.addWidget(self.feedback_label)
+        # Fix the height of the label
+        self.feedback_label.setFixedHeight(self.feedback_label.fontMetrics().height())
 
         # Button to update the results
         self.update_button = QPushButton("Update")
@@ -59,6 +64,7 @@ class CalculatorWidget(QWidget):
     def update_results(self):
         current_tab = self.tabs_widget.currentWidget()
         if isinstance(current_tab, AbstractCalculatorTab):
-            current_tab.update_results()
+            status = current_tab.update_results()
+            self.feedback_label.setText(status)
         else:
             raise TypeError("Tab needs to be AbstractCalculatorTab class.")

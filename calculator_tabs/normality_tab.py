@@ -22,6 +22,8 @@ class NormalityTab(AbstractCalculatorTab): # TODO: Implement Kolmogorov-Smirnov 
 
     def update_results(self):
         data = self.data_manager.get_data()
+        if data is None or data.empty:
+            return "No data loaded."
 
         # Clear the table
         self.results_table.setRowCount(0)
@@ -37,3 +39,5 @@ class NormalityTab(AbstractCalculatorTab): # TODO: Implement Kolmogorov-Smirnov 
             self.results_table.setItem(row_idx, 0, QTableWidgetItem(col))
             self.results_table.setItem(row_idx, 1, QTableWidgetItem(f"{w_stat:.4f}"))
             self.results_table.setItem(row_idx, 2, QTableWidgetItem(f"{p_value:.4f}"))
+
+        return ""
