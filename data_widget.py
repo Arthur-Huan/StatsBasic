@@ -71,12 +71,7 @@ class FilePathInput(QLineEdit):
 
     def validate_path(self):
         """
-        :return:
-            0: Empty field
-            1: Valid path
-            -1: Is a directory
-            -2: Is not a file
-            -3: File type not supported
+        :return: 1 if validated, string status message otherwise
         """
         path = self.text()
         valid_extensions = (".csv", ".xls", ".xlsx")
@@ -110,7 +105,6 @@ class TextInput(QTextEdit):
         Loads data from the text input field into `self.data_manager`
         :return: Status message in string
         """
-        text = self.toPlainText()
         status = self.validate_text()
         if status == 1:
             df = self.read_text()
@@ -121,12 +115,12 @@ class TextInput(QTextEdit):
 
     def validate_text(self):
         """
-        :return:
+        :return: 1 if validated, string status message otherwise
         """
         text = self.toPlainText()
         if text == "":
             return "Text input is empty"
-        return "Text inputted, doing nothing tho"
+        return 1
 
     def read_text(self):
         text = self.toPlainText()

@@ -70,7 +70,6 @@ class NormalityTab(QWidget):
         self.results_table.setRowCount(0)
 
         # Perform Shapiro-Wilk test for each series (excluding the first column)
-        x_col = data.columns[0]
         for col in data.columns[1:]:
             series = data[col].dropna()  # Drop NaN values
             w_stat, p_value = shapiro(series)

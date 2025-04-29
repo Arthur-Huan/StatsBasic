@@ -1,5 +1,5 @@
 import sys
-from PySide6.QtWidgets import QMainWindow, QApplication, QVBoxLayout, QHBoxLayout, QWidget
+from PySide6.QtWidgets import QMainWindow, QApplication, QHBoxLayout, QWidget
 
 from database import DataManager
 from data_widget import DataWidget
