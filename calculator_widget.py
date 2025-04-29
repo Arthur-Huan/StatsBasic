@@ -5,7 +5,6 @@ from calculator_tabs.t_test_tab import TTestTab
 from calculator_tabs.chi_squared_tab import ChiSquaredTab
 from calculator_tabs.correlation_coefficient_tab import CorrelationCoefficientTab
 from calculator_tabs.anova_tab import ANOVATab
-from calculator_tabs.normality_tab import NormalityTab
 
 
 class CalculatorWidget(QTabWidget):
