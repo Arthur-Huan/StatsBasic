@@ -9,12 +9,53 @@ class VisualizationWidget(QWidget):
         super().__init__(parent)
 
         self.data_manager = data_manager
-        self.data_manager.data_changed.connect(self.update_table)
 
         self.layout = QVBoxLayout(self)
 
-        self.table_widget = QTableWidget(self)
+        # Table widget
+        self.table_widget = TableWidget(self.data_manager, self)
         self.layout.addWidget(self.table_widget)
+
+        # Graph widget
+        self.graph_widget = GraphWidget(self.data_manager, self)
+        self.layout.addWidget(self.graph_widget)
+
+
+class TableWidget(QTableWidget):
+    def __init__(self, data_manager, parent=None):
+        super().__init__(parent)
+        self.data_manager = data_manager
+        self.data_manager.data_changed.connect(self.update_table)
+
+    def update_table(self):
+        """
+        Update the table with the latest data from the data manager.
+        """
+        data = self.data_manager.get_data()
+        if data is None or data.empty:
+            self.setRowCount(0)
+            self.setColumnCount(0)
+            return
+
+        # Set the number of rows and columns
+        self.setRowCount(len(data))
+        self.setColumnCount(len(data.columns))
+
+        # Set the column headers
+        self.setHorizontalHeaderLabels(data.columns)
+
+        # Populate the table with data
+        for row_idx, row in data.iterrows():
+            for col_idx, value in enumerate(row):
+                self.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
+
+
+class GraphWidget(QWidget):
+    def __init__(self, data_manager, parent=None):
+        super().__init__(parent)
+        self.data_manager = data_manager
+
+        self.layout = QVBoxLayout(self)
 
         # Label to display feedback
         self.feedback_label = QLabel("Load data to plot a scatter plot.")
@@ -30,28 +71,6 @@ class VisualizationWidget(QWidget):
         self.canvas = FigureCanvas(self.figure)
         self.layout.addWidget(self.canvas)
 
-    def update_table(self):
-        """
-        Update the table with the latest data from the data manager.
-        """
-        data = self.data_manager.get_data()
-        if data is None or data.empty:
-            self.table_widget.setRowCount(0)
-            self.table_widget.setColumnCount(0)
-            return
-
-        # Set the number of rows and columns
-        self.table_widget.setRowCount(len(data))
-        self.table_widget.setColumnCount(len(data.columns))
-
-        # Set the column headers
-        self.table_widget.setHorizontalHeaderLabels(data.columns)
-
-        # Populate the table with data
-        for row_idx, row in data.iterrows():
-            for col_idx, value in enumerate(row):
-                self.table_widget.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
-    
     def plot_scatter(self):
         """
         Plot a scatter plot
@@ -74,7 +93,6 @@ class VisualizationWidget(QWidget):
             x_col, y_col = data.columns[:2]
             ax = self.figure.add_subplot(111)
             sns.scatterplot(data=data, x=x_col, y=y_col, ax=ax)
-            ax.set_title("Scatter Plot")
 
             # Refresh the canvas
             self.canvas.draw()

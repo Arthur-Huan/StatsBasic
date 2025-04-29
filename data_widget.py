@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QWidget, QLineEdit, QLabel, QVBoxLayout, QTextEdit
 class DataWidget(QWidget):
     def __init__(self, data_manager, parent=None):
         super(DataWidget, self).__init__(parent)
+
         self.data_manager = data_manager
 
         self.layout = QVBoxLayout(self)
@@ -48,7 +49,6 @@ class DataWidget(QWidget):
     def load_data_from_text(self):
         status = self.text_input.load_data()
         self.set_status(status)
-
 
 
 class FilePathInput(QLineEdit):
