@@ -3,7 +3,6 @@ from io import StringIO
 import pandas as pd
 from PySide6.QtWidgets import QWidget, QLineEdit, QLabel, QVBoxLayout, QTextEdit, QPushButton, QHBoxLayout
 
-
 class DataWidget(QWidget):
     def __init__(self, data_manager, parent=None):
         super(DataWidget, self).__init__(parent)
@@ -69,7 +68,7 @@ class FilePathInput(QLineEdit):
         else:
             return status
 
-    def validate_path(self):
+    def validate_path(self): # TODO: Validate that the file can be read correctly, not just if path is okay
         """
         :return: 1 if validated, string status message otherwise
         """
@@ -113,7 +112,7 @@ class TextInput(QTextEdit):
         else:
             return status
 
-    def validate_text(self):
+    def validate_text(self): # TODO: Actually validate the string properly
         """
         :return: 1 if validated, string status message otherwise
         """
