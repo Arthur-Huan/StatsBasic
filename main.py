@@ -16,7 +16,7 @@ class MainWindow(QMainWindow):
         # Left: Input data, including from a file path or directly entering
         self.left_widget = DataWidget(self.data_manager, self)
         # Middle: Select the tests
-        self.middle_widget = CalculatorWidget(self)
+        self.middle_widget = CalculatorWidget(self.data_manager, self)
         # Right: Graphical representation of the data
         self.right_widget = VisualizationWidget(self.data_manager, self)
 

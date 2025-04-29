@@ -10,6 +10,7 @@ python = ">=3.12 < 3.14"
 PySide6 = "*"
 pandas = "*"
 seaborn = "*"
+scipy = "^1.15.2"
 
 
 [[tool.poetry.source]]

@@ -90,9 +90,10 @@ class GraphWidget(QWidget):
             self.figure.clear()
 
             # Use the first two columns for the scatter plot
-            x_col, y_col = data.columns[:2]
+            x_col = data.columns[0]
             ax = self.figure.add_subplot(111)
-            sns.scatterplot(data=data, x=x_col, y=y_col, ax=ax)
+            for y_col in data.columns[1:]:
+                sns.scatterplot(data=data, x=x_col, y=y_col, ax=ax, label=y_col)
 
             # Refresh the canvas
             self.canvas.draw()
