@@ -3,8 +3,8 @@ from PySide6.QtWidgets import QVBoxLayout, QLabel, QTableWidget, QTableWidgetIte
 
 from calculator_tabs.abstract_calculator_tab import AbstractCalculatorTab
 
-
-class NormalityTab(AbstractCalculatorTab): # TODO: Implement Kolmogorov-Smirnov test and add selector to choose the test
+# TODO: Implement Kolmogorov-Smirnov test and add selector to choose the test
+class NormalityTab(AbstractCalculatorTab):
     def __init__(self, data_manager, parent=None):
         super().__init__(data_manager, parent)
 

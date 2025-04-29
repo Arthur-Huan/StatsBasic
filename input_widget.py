@@ -70,23 +70,24 @@ class FilePathInput(QLineEdit):
         else:
             return status
 
-    def validate_path(self): # TODO: Validate that the file can be read correctly, not just if path is okay
+    # TODO: Validate that the file can be read correctly, not just if path is okay
+    def validate_path(self):
         """
         :return: 1 if validated, string status message otherwise
         """
         path = self.text()
         valid_extensions = (".csv", ".xls", ".xlsx")
         if path == "":
-            return "Path is empty"
+            return "Path is empty."
         # Check if is a directory
         if  os.path.isdir(path):
-            return "The path is a directory"
+            return "The path is a directory."
         # Check if is a file
         if not os.path.isfile(path):
-            return "Missing file at the path"
+            return "Missing file at the path."
         # Check file extension
         if not path.lower().endswith(valid_extensions):
-            return "File type is not supported"
+            return "File type is not supported."
         # File extension is valid
         else:
             return 1
