@@ -47,6 +47,9 @@ class CalculatorWidget(QWidget):
         # Sync the dropdown selector and tab selector
         self.tabs_widget.currentChanged.connect(self.dropdown.setCurrentIndex)
         self.dropdown.currentIndexChanged.connect(self.tabs_widget.setCurrentIndex)
+        
+        # Hide the tabs bar
+        self.tabs_widget.tabBar().setVisible(False)
 
         # Button to update the results
         self.update_button = QPushButton("Update")

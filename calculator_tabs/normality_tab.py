@@ -22,9 +22,6 @@ class NormalityTab(AbstractCalculatorTab): # TODO: Implement Kolmogorov-Smirnov 
 
     def update_results(self):
         data = self.data_manager.get_data()
-        if data is None or data.empty:
-            self.info_label.setText("No data available.")
-            return
 
         # Clear the table
         self.results_table.setRowCount(0)

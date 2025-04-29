@@ -57,14 +57,14 @@ class GraphWidget(QWidget):
 
         self.layout = QVBoxLayout(self)
 
+        # Label to display feedback
+        self.feedback_label = QLabel("Load data to plot a scatter plot.")
+        self.layout.addWidget(self.feedback_label)
+
         # Plot figure and canvas
         self.figure = Figure()
         self.canvas = FigureCanvas(self.figure)
         self.layout.addWidget(self.canvas)
-
-        # Label to display feedback
-        self.feedback_label = QLabel("Load data to plot a scatter plot.")
-        self.layout.addWidget(self.feedback_label)
 
         # Button to plot the graph
         self.plot_button = QPushButton("Plot Scatter Plot", self)
