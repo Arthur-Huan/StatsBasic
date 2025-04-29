@@ -1,24 +1,24 @@
+from PySide6.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import seaborn as sns
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel, QTableWidget, QTableWidgetItem
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel, QTableWidget, QTableWidgetItem, QSizePolicy, \
+    QSplitter
 
 
-class VisualizationWidget(QWidget):
+class VisualizationWidget(QSplitter):
     def __init__(self, data_manager, parent=None):
-        super().__init__(parent)
+        super().__init__(Qt.Vertical, parent)
 
         self.data_manager = data_manager
 
-        self.layout = QVBoxLayout(self)
-
         # Table widget
         self.table_widget = TableWidget(self.data_manager, self)
-        self.layout.addWidget(self.table_widget)
+        self.addWidget(self.table_widget)
 
         # Graph widget
         self.graph_widget = GraphWidget(self.data_manager, self)
-        self.layout.addWidget(self.graph_widget)
+        self.addWidget(self.graph_widget)
 
 
 class TableWidget(QTableWidget):
@@ -57,6 +57,11 @@ class GraphWidget(QWidget):
 
         self.layout = QVBoxLayout(self)
 
+        # Plot figure and canvas
+        self.figure = Figure()
+        self.canvas = FigureCanvas(self.figure)
+        self.layout.addWidget(self.canvas)
+
         # Label to display feedback
         self.feedback_label = QLabel("Load data to plot a scatter plot.")
         self.layout.addWidget(self.feedback_label)
@@ -65,11 +70,6 @@ class GraphWidget(QWidget):
         self.plot_button = QPushButton("Plot Scatter Plot", self)
         self.plot_button.clicked.connect(self.plot_scatter)
         self.layout.addWidget(self.plot_button)
-
-        # Plot figure and canvas
-        self.figure = Figure()
-        self.canvas = FigureCanvas(self.figure)
-        self.layout.addWidget(self.canvas)
 
     def plot_scatter(self):
         """
@@ -88,7 +88,6 @@ class GraphWidget(QWidget):
         try:
             # Clear the figure
             self.figure.clear()
-
             # Use the first two columns for the scatter plot
             x_col = data.columns[0]
             ax = self.figure.add_subplot(111)
@@ -96,8 +95,7 @@ class GraphWidget(QWidget):
                 ax.set_ylabel("Values")
             for y_col in data.columns[1:]:
                 sns.scatterplot(data=data, x=x_col, y=y_col, ax=ax, label=y_col)
-
-            # Refresh the canvas
+            # Draw the plot on the canvas
             self.canvas.draw()
         except Exception as e:
             self.feedback_label.setText(f"Error plotting scatter plot: {e}")
