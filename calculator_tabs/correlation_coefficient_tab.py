@@ -48,7 +48,7 @@ class CorrelationCoefficientTab(AbstractCalculatorTab):
                 self.results_table.setItem(row_idx, 1, QTableWidgetItem(f"{r:.4f}"))
                 self.results_table.setItem(row_idx, 2, QTableWidgetItem(f"{p_value:.4f}"))
             else:
-                # Handle missing data (or invalid data) serieses
+                # Handle missing data (or invalid data)
                 row_idx = self.results_table.rowCount()
                 self.results_table.insertRow(row_idx)
                 self.results_table.setItem(row_idx, 0, QTableWidgetItem(col))

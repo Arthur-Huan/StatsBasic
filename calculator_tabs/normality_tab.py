@@ -1,5 +1,5 @@
 from scipy.stats import shapiro
-from PySide6.QtWidgets import QTableWidgetItem, QWidget, QVBoxLayout, QTableWidget, QLabel, QPushButton
+from PySide6.QtWidgets import QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem
 
 from calculator_tabs.abstract_calculator_tab import AbstractCalculatorTab
 
