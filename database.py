@@ -3,6 +3,10 @@ import pandas as pd
 from PySide6.QtCore import QObject, Signal
 
 class DataManager(QObject):
+    """ TODO: Separate these two behavior:
+            Changes in the database, needing only UI to be updated
+            Changes in what data is selected, needing everything to be updated
+    """
     data_changed = Signal()
 
     def __init__(self, sql_db_path, parent=None):
@@ -24,8 +28,8 @@ class DataManager(QObject):
         ''')
         self.sql_conn.commit()
 
-    def select_df(self, id):
-        self.loaded_id = id
+    def select_df(self, new_id):
+        self.loaded_id = new_id
         self.data_changed.emit()
 
     def get_df(self):
@@ -56,19 +60,18 @@ class DataManager(QObject):
             VALUES (?, ?)
         ''', (df_name, df_json))
         self.sql_conn.commit()
-
+        # Notify data changes
         self.data_changed.emit()
 
-    def delete_df(self, id):
+    def delete_df(self, id_to_delete):
         self.cursor.execute('''
             DELETE FROM data
             WHERE id = ?
-        ''', (id,))
+        ''', (id_to_delete,))
         self.sql_conn.commit()
-
         # Automatically deselect if the deleted df is the current selection
-        if self.loaded_id == id:
+        if self.loaded_id == id_to_delete:
             self.loaded_id = None
-
+        # Notify data changes
         self.data_changed.emit()
 
