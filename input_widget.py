@@ -65,7 +65,7 @@ class FilePathInput(QLineEdit):
         status = self.validate_path()
         if status == 1:
             df = self.read_file()
-            self.data_manager.set_data(df)
+            self.data_manager.save_data(df)
             return "Data loaded from file."
         else:
             return status
@@ -110,7 +110,7 @@ class TextInput(QTextEdit):
         status = self.validate_text()
         if status == 1:
             df = self.read_text()
-            self.data_manager.set_data(df)
+            self.data_manager.save_data(df)
             return "Data loaded from text input."
         else:
             return status

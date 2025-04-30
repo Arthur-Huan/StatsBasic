@@ -8,13 +8,13 @@ class ChiSquaredTab(AbstractCalculatorTab):
     def __init__(self, data_manager, parent=None):
         super().__init__(data_manager, parent)
 
-        self.layout= QVBoxLayout(self)
+        self.layout = QVBoxLayout(self)
 
-        # Label to display instructions
-        self.info_label = QLabel("Chi-squared Test for Independence")
-        self.layout.addWidget(self.info_label)
+        # Header for table
+        self.results_table_header = QLabel("Chi-Squared Test Results")
+        self.layout.addWidget(self.results_table_header)
 
-        # Table widget to display chi-squared results
+        # Table to display results
         self.results_table = QTableWidget()
         self.results_table.setColumnCount(2)
         self.results_table.setHorizontalHeaderLabels(["Statistic", "Value"])
@@ -22,7 +22,8 @@ class ChiSquaredTab(AbstractCalculatorTab):
 
     def update_results(self):
         """Calculate the chi-squared statistic for the contingency table.
-        :return: none if successful, error message otherwise"""
+        :return: feedback/error message (empty string if success) to display in CalculatorWidget
+        """
         # Retrieve data, should be a contingency table
         data = self.data_manager.get_data()
         if data is None or data.empty:

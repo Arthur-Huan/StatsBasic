@@ -1,7 +1,7 @@
 import sys
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QMainWindow, QApplication, QSplitter, QWidget, QSizePolicy
+from PySide6.QtWidgets import QMainWindow, QApplication, QSplitter
 
 from database import DataManager
 from input_widget import InputWidget
@@ -13,7 +13,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.data_manager = DataManager()
+        self.data_manager = DataManager("data.sqlite", self)
 
         # Left: Input data, including from a file path or directly entering
         self.left_widget = InputWidget(self.data_manager, self)

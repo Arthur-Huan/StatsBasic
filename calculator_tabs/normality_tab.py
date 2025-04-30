@@ -10,9 +10,9 @@ class NormalityTab(AbstractCalculatorTab):
 
         self.layout = QVBoxLayout(self)
 
-        # Label to display instructions
-        self.info_label = QLabel("Shapiro-Wilk Test Results")
-        self.layout.addWidget(self.info_label)
+        # Header for table
+        self.results_table_header = QLabel("Shapiro-Wilk test results")
+        self.layout.addWidget(self.results_table_header)
 
         # Table to display results
         self.results_table = QTableWidget()
@@ -21,8 +21,9 @@ class NormalityTab(AbstractCalculatorTab):
         self.layout.addWidget(self.results_table)
 
     def update_results(self):
-        """Update the results and display them in the results table.
-        :return: empty string if successful, otherwise a feedback message"""
+        """Perform Shapiro-Wilk test and display results in the results table.
+        :return: feedback/error message (empty string if success) to display in CalculatorWidget
+        """
         data = self.data_manager.get_data()
         if data is None or data.empty:
             return "No data loaded."

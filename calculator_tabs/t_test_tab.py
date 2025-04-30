@@ -22,6 +22,10 @@ class TTestTab(AbstractCalculatorTab):
         self.population_mean_input.setPlaceholderText("Population Mean (for single-sample t-test)")
         self.layout.addWidget(self.population_mean_input)
 
+        # Header for table
+        self.results_table_header = QLabel("Student's t-test results")
+        self.layout.addWidget(self.results_table_header)
+
         # Table to display results
         self.results_table = QTableWidget()
         self.results_table.setColumnCount(2)
@@ -32,7 +36,8 @@ class TTestTab(AbstractCalculatorTab):
         self.data_manager.data_changed.connect(self.populate_columns)
 
     def populate_columns(self):
-        """Populate column selectors with column names from the data."""
+        """Populate column selectors with column names from the data.
+        """
         data = self.data_manager.get_data()
         self.column_selector_1.clear()
         self.column_selector_2.clear()
@@ -42,7 +47,8 @@ class TTestTab(AbstractCalculatorTab):
 
     def update_results(self):
         """Perform the t-test and display in the results table.
-        :return: Empty string if successful, feedback message otherwise"""
+        :return: feedback/error message (empty string if success) to display in CalculatorWidget
+        """
         data = self.data_manager.get_data()
         if data is None or data.empty:
             return "No data loaded."

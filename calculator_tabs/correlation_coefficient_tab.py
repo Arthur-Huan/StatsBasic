@@ -10,9 +10,9 @@ class CorrelationCoefficientTab(AbstractCalculatorTab):
 
         self.layout = QVBoxLayout(self)
 
-        # Label to display instructions
-        self.info_label = QLabel("Pearson Correlation Coefficients")
-        self.layout.addWidget(self.info_label)
+        # Header for table
+        self.results_table_header = QLabel("Pearson correlation coefficient results")
+        self.layout.addWidget(self.results_table_header)
 
         # Table to display results
         self.results_table = QTableWidget()
@@ -22,7 +22,7 @@ class CorrelationCoefficientTab(AbstractCalculatorTab):
 
     def update_results(self):
         """Calculate the Pearson correlation coefficient for each series against the first series.
-        :return: none if successful, error message otherwise
+        :return: feedback/error message (empty string if success) to display in CalculatorWidget
         """
         data = self.data_manager.get_data()
         if data is None or data.empty:
