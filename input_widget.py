@@ -1,7 +1,9 @@
 import os
 from io import StringIO
 import pandas as pd
-from PySide6.QtWidgets import QWidget, QLineEdit, QLabel, QVBoxLayout, QTextEdit, QPushButton, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QLineEdit, QLabel, QVBoxLayout, QTextEdit, QPushButton, QHBoxLayout, \
+    QTableWidget, QTableWidgetItem
+
 
 # TODO: Add a selection widget so that when data is loaded, the user can save it and load it later again
 class InputWidget(QWidget):
@@ -41,15 +43,19 @@ class InputWidget(QWidget):
         self.load_data_buttons.setLayout(load_data_layout)
         self.layout.addWidget(self.load_data_buttons)
 
+        # UI to manage the data and interact with the data_manager
+        self.data_manager_ui = DataManagerUI(self.data_manager, self)
+        self.layout.addWidget(self.data_manager_ui)
+
     def set_status(self, status):
         self.feedback_label.setText(status)
 
     def load_data_from_path(self):
-        status = self.file_path_input.load_data()
+        status = self.file_path_input.import_data()
         self.set_status(status)
 
     def load_data_from_text(self):
-        status = self.text_input.load_data()
+        status = self.text_input.import_data()
         self.set_status(status)
 
 
@@ -58,14 +64,14 @@ class FilePathInput(QLineEdit):
         super().__init__(parent)
         self.data_manager = data_manager
 
-    def load_data(self):
+    def import_data(self):
         """Loads data from the file path input field into `self.data_manager`
         :return: Status message in string
         """
         status = self.validate_path()
         if status == 1:
             df = self.read_file()
-            self.data_manager.save_data(df)
+            self.data_manager.save_df(df)
             return "Data loaded from file."
         else:
             return status
@@ -103,14 +109,14 @@ class TextInput(QTextEdit):
         super().__init__(parent)
         self.data_manager = data_manager
 
-    def load_data(self):
+    def import_data(self):
         """Loads data from the text input field into `self.data_manager`
         :return: Status message in string
         """
         status = self.validate_text()
         if status == 1:
             df = self.read_text()
-            self.data_manager.save_data(df)
+            self.data_manager.save_d(df)
             return "Data loaded from text input."
         else:
             return status
@@ -129,3 +135,49 @@ class TextInput(QTextEdit):
         text_csv = StringIO(text)
         df = pd.read_csv(text_csv)
         return df
+
+
+class DataManagerUI(QWidget):
+    def __init__(self, data_manager, parent=None):
+        super().__init__(parent)
+
+        self.data_manager = data_manager
+
+        self.results_table = QTableWidget()
+        self.layout = QVBoxLayout(self)
+        self.layout.addWidget(self.results_table)
+
+        self.results_table.cellClicked.connect(self.on_row_click)
+
+        self.data_manager.data_changed.connect(self.update_ui)
+
+        self.update_ui()
+
+    def update_ui(self):
+        # Get all DataFrames
+        all_df = self.data_manager.get_df_list()
+        if all_df is None:
+            self.results_table.setRowCount(0)
+            self.results_table.setColumnCount(0)
+            return
+
+        # Set table dimensions
+        self.results_table.setRowCount(len(all_df))
+        self.results_table.setColumnCount(3)
+        self.results_table.setHorizontalHeaderLabels(["ID", "Name", "Data"])
+
+        # Populate the table with data
+        for row_idx, (df_id, df_name, df_json) in enumerate(all_df):
+            self.results_table.setItem(row_idx, 0, QTableWidgetItem(str(df_id)))
+            self.results_table.setItem(row_idx, 1, QTableWidgetItem(df_name))
+            self.results_table.setItem(row_idx, 2, QTableWidgetItem(df_json))
+
+        # Resize columns
+        self.results_table.resizeColumnToContents(0)
+
+    def on_row_click(self, row, column):
+        # Get the ID of the selected DataFrame
+        df_id = int(self.results_table.item(row, 0).text())
+        # Select the DataFrame in the data manager
+        self.data_manager.select_df(df_id)
+

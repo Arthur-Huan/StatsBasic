@@ -24,7 +24,7 @@ class CorrelationCoefficientTab(AbstractCalculatorTab):
         """Calculate the Pearson correlation coefficient for each series against the first series.
         :return: feedback/error message (empty string if success) to display in CalculatorWidget
         """
-        data = self.data_manager.get_data()
+        data = self.data_manager.get_df()
         if data is None or data.empty:
             return "No data loaded."
 

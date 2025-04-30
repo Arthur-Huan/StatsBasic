@@ -38,7 +38,7 @@ class TTestTab(AbstractCalculatorTab):
     def populate_columns(self):
         """Populate column selectors with column names from the data.
         """
-        data = self.data_manager.get_data()
+        data = self.data_manager.get_df()
         self.column_selector_1.clear()
         self.column_selector_2.clear()
         self.column_selector_2.addItem("(None)")
@@ -49,7 +49,7 @@ class TTestTab(AbstractCalculatorTab):
         """Perform the t-test and display in the results table.
         :return: feedback/error message (empty string if success) to display in CalculatorWidget
         """
-        data = self.data_manager.get_data()
+        data = self.data_manager.get_df()
         if data is None or data.empty:
             return "No data loaded."
 

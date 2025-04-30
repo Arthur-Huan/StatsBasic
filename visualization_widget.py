@@ -32,7 +32,7 @@ class TableWidget(QTableWidget):
         Update the table with the latest data from the data manager.
         No returns or feedback is provided
         """
-        data = self.data_manager.get_data()
+        data = self.data_manager.get_df()
         if data is None or data.empty:
             self.setRowCount(0)
             self.setColumnCount(0)
@@ -79,7 +79,7 @@ class GraphWidget(QWidget):
         Data is loaded from `self.data_manager` to plot the plot.
         Feedback label for the plotting will be updated to provide user feedback.
         """
-        data = self.data_manager.get_data()
+        data = self.data_manager.get_df()
         if data is None:
             self.feedback_label.setText("No data loaded.")
             return

@@ -25,7 +25,7 @@ class ChiSquaredTab(AbstractCalculatorTab):
         :return: feedback/error message (empty string if success) to display in CalculatorWidget
         """
         # Retrieve data, should be a contingency table
-        data = self.data_manager.get_data()
+        data = self.data_manager.get_df()
         if data is None or data.empty:
             return "No data loaded."
 

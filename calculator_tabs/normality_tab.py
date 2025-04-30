@@ -24,7 +24,7 @@ class NormalityTab(AbstractCalculatorTab):
         """Perform Shapiro-Wilk test and display results in the results table.
         :return: feedback/error message (empty string if success) to display in CalculatorWidget
         """
-        data = self.data_manager.get_data()
+        data = self.data_manager.get_df()
         if data is None or data.empty:
             return "No data loaded."
 
