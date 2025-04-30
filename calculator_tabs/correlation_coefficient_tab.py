@@ -21,6 +21,9 @@ class CorrelationCoefficientTab(AbstractCalculatorTab):
         self.layout.addWidget(self.results_table)
 
     def update_results(self):
+        """Calculate the Pearson correlation coefficient for each series against the first series.
+        :return: none if successful, error message otherwise
+        """
         data = self.data_manager.get_data()
         if data is None or data.empty:
             return "No data loaded."
