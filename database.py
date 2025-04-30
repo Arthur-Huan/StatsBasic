@@ -13,3 +13,5 @@ class DataManager(QObject):
     def set_data(self, data):
         self.data = data
         self.data_changed.emit()
+
+# TODO: Implement support to save data in a database and load it later when user calls it up, see input_widget.py too

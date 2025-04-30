@@ -3,6 +3,7 @@ from io import StringIO
 import pandas as pd
 from PySide6.QtWidgets import QWidget, QLineEdit, QLabel, QVBoxLayout, QTextEdit, QPushButton, QHBoxLayout
 
+# TODO: Add a selection widget so that when data is loaded, the user can save it and load it later again
 class InputWidget(QWidget):
     def __init__(self, data_manager, parent=None):
         super(InputWidget, self).__init__(parent)
