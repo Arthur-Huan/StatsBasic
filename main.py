@@ -13,7 +13,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.data_manager = DataManager("data.sqlite", self)
+        self.data_manager = DataManager(self)
 
         # Left: Input data, including from a file path or directly entering
         self.left_widget = InputWidget(self.data_manager, self)
