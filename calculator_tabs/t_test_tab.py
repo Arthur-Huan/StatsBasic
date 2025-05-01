@@ -41,6 +41,8 @@ class TTestTab(AbstractCalculatorTab):
         data = self.data_manager.get_df()
         self.column_selector_1.clear()
         self.column_selector_2.clear()
+        if data is None or data.empty:
+            return
         self.column_selector_2.addItem("(None)")
         self.column_selector_1.addItems(data.columns)
         self.column_selector_2.addItems(data.columns)

@@ -1,4 +1,6 @@
 import sqlite3
+from io import StringIO
+
 import pandas as pd
 from PySide6.QtCore import QObject, Signal
 
@@ -42,7 +44,7 @@ class DataManager(QObject):
         ''', (self.loaded_id,)).fetchone()
         if data_json is None:
             return None
-        return pd.read_json(data_json[0])
+        return pd.read_json(StringIO(data_json[0]))
 
     def get_df_list(self):
         data_json = self.cursor.execute('''
@@ -72,6 +74,16 @@ class DataManager(QObject):
         # Automatically deselect if the deleted df is the current selection
         if self.loaded_id == id_to_delete:
             self.loaded_id = None
+        # Notify data changes
+        self.data_changed.emit()
+
+    def delete_all_df(self):
+        self.cursor.execute('''
+            DELETE FROM data
+        ''')
+        self.sql_conn.commit()
+        # No data is selected anymore
+        self.loaded_id = None
         # Notify data changes
         self.data_changed.emit()
 

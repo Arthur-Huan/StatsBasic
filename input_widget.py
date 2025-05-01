@@ -1,8 +1,9 @@
 import os
 from io import StringIO
 import pandas as pd
+from PySide6.QtCore import QPoint, Qt
 from PySide6.QtWidgets import QWidget, QLineEdit, QLabel, QVBoxLayout, QTextEdit, QPushButton, QHBoxLayout, \
-    QTableWidget, QTableWidgetItem
+    QTableWidget, QTableWidgetItem, QMenu
 
 
 # TODO: Add a selection widget so that when data is loaded, the user can save it and load it later again
@@ -147,7 +148,12 @@ class DataManagerUI(QWidget):
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(self.results_table)
 
+        # Set up behavior for when cells in the table are clicked
         self.results_table.cellClicked.connect(self.on_row_click)
+
+        # Set up the context menu
+        self.results_table.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.results_table.customContextMenuRequested.connect(self.show_context_menu)
 
         self.data_manager.data_changed.connect(self.update_ui)
 
@@ -180,4 +186,20 @@ class DataManagerUI(QWidget):
         df_id = int(self.results_table.item(row, 0).text())
         # Select the DataFrame in the data manager
         self.data_manager.select_df(df_id)
+
+    def show_context_menu(self, position: QPoint):
+        menu = QMenu(self)
+        delete_row_action = menu.addAction("Delete")
+        delete_all_action = menu.addAction("Delete All")
+        action = menu.exec(self.results_table.mapToGlobal(position))
+
+        if action == delete_row_action:
+            row = self.results_table.currentRow()
+            if row >= 0:
+                df_id = int(self.results_table.item(row, 0).text())
+                self.data_manager.delete_df(df_id)
+                self.update_ui()
+        elif action == delete_all_action:
+            self.data_manager.delete_all_df()
+            self.update_ui()
 
