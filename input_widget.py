@@ -189,14 +189,20 @@ class DataManagerUI(QWidget):
 
     def show_context_menu(self, position: QPoint):
         menu = QMenu(self)
-        delete_row_action = menu.addAction("Delete")
+
+        curr_row = self.results_table.rowAt(position.y())
+
+        if curr_row >= 0:
+            delete_row_action = menu.addAction("Delete")
+        else:
+            delete_row_action = None
         delete_all_action = menu.addAction("Delete All")
+
         action = menu.exec(self.results_table.mapToGlobal(position))
 
         if action == delete_row_action:
-            row = self.results_table.currentRow()
-            if row >= 0:
-                df_id = int(self.results_table.item(row, 0).text())
+            if curr_row >= 0:
+                df_id = int(self.results_table.item(curr_row, 0).text())
                 self.data_manager.delete_df(df_id)
                 self.update_ui()
         elif action == delete_all_action:
