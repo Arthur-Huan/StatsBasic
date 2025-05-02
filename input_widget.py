@@ -117,7 +117,7 @@ class TextInput(QTextEdit):
         status = self.validate_text()
         if status == 1:
             df = self.read_text()
-            self.data_manager.save_d(df)
+            self.data_manager.save_df(df)
             return "Data loaded from text input."
         else:
             return status
